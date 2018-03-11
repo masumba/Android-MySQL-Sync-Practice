@@ -6,14 +6,30 @@ package com.javarank.syncpractice;
 
 public class Person {
 
+    private int id;
     private String firstName;
     private String lastName;
     private int syncStatus;
+
+    public Person(int id, String firstName, String lastName, int syncStatus) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.syncStatus = syncStatus;
+    }
 
     public Person(String firstName, String lastName, int syncStatus) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.syncStatus = syncStatus;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {

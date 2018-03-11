@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SyncPractice.iml" filepath="$PROJECT_DIR$/SyncPractice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Android-MySQL-Sync-Practice.iml" filepath="$PROJECT_DIR$/Android-MySQL-Sync-Practice.iml" />
+      <module fileurl="file://F:\WorkDirectory\AndroidPractice\Android-MySQL-Sync-Practice\SyncPractice.iml" filepath="F:\WorkDirectory\AndroidPractice\Android-MySQL-Sync-Practice\SyncPractice.iml" />
       <module fileurl="file://E:\AndroidPractice\SyncPractice\SyncPractice.iml" filepath="E:\AndroidPractice\SyncPractice\SyncPractice.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://E:\AndroidPractice\SyncPractice\app\app.iml" filepath="E:\AndroidPractice\SyncPractice\app\app.iml" />
+      <module fileurl="file://F:\WorkDirectory\AndroidPractice\Android-MySQL-Sync-Practice\app\app.iml" filepath="F:\WorkDirectory\AndroidPractice\Android-MySQL-Sync-Practice\app\app.iml" />
     </modules>
   </component>
 </project>

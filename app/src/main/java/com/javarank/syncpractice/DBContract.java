@@ -18,5 +18,6 @@ public class DBContract  {
 
      public static final String BASE_URL = "http://10.0.2.2/sync/";
      public static final String CREATE_PERSON_URL = BASE_URL+"insert.php";
+     public static final String UI_UPDATE_BROADCAST = "my_broadcast";
 
 }

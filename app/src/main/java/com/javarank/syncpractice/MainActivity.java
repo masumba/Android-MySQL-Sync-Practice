@@ -1,5 +1,9 @@
 package com.javarank.syncpractice;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private MyAdapter adapter;
     private List<Person> personList;
     private DBHelper dbHelper;
+    BroadcastReceiver broadcastReceiver;
 
 
     @Override
@@ -52,17 +57,36 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
         personList = dbHelper.getPersonList();
         adapter = new MyAdapter();
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                notifyDatasetChangedForPerson();
+            }
+        };
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+        int size = dbHelper.getUnSyncedPersonList().size();
         notifyDatasetChangedForPerson();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(broadcastReceiver, new IntentFilter(DBContract.UI_UPDATE_BROADCAST));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
     }
 
     private void notifyDatasetChangedForPerson() {
         personList = dbHelper.getPersonList();
+        //adapter.clear();
         adapter.setPersonList(personList);
     }
 
@@ -72,18 +96,19 @@ public class MainActivity extends AppCompatActivity {
         String lastName = lastNameEditText.getText().toString();
         boolean isAvailable = Util.checkNetworkConnection(this);
         if( isAvailable ) {
-            //saveToCloudStorage(firstName, lastName);
+            saveToCloudStorage(firstName, lastName);
             Toast.makeText(MainActivity.this, "Connection", Toast.LENGTH_SHORT).show();
         } else {
             saveToLocalStorage(firstName, lastName, DBContract.SYNC_STATUS_FAILED);
         }
-        notifyDatasetChangedForPerson();
+
     }
 
 
     private void saveToLocalStorage(String firstName, String lastName, int status) {
         Person person = new Person(firstName, lastName, status);
         dbHelper.saveToLocalDb(person, status);
+        notifyDatasetChangedForPerson();
     }
 
     private void saveToCloudStorage(final String firstName, final String lastName) {
