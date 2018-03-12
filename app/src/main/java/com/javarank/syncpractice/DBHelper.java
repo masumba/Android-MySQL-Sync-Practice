@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class DBHelper extends SQLiteOpenHelper {
             String firstName = cursor.getString(cursor.getColumnIndex(DBContract.FIRST_NAME));
             String lastName = cursor.getString(cursor.getColumnIndex(DBContract.LAST_NAME));
             int status = cursor.getInt(cursor.getColumnIndex(DBContract.SYNC_STATUS));
-            Person person = new Person(firstName, lastName, status);
+            Person person = new Person(id, firstName, lastName, status);
             personList.add(person);
         }
         cursor.close();
@@ -77,7 +78,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<Person> getUnSyncedPersonList() {
         ArrayList<Person> personList = new ArrayList<>();
         String [] settingsProjection = {DBContract.ID, DBContract.FIRST_NAME, DBContract.LAST_NAME};
-        String whereClause = DBContract.ID+"=?";
+        String whereClause = DBContract.SYNC_STATUS+"=?";
         String [] whereArgs = {"1"};
         cursor = database.query(DBContract.TABLE_NAME, settingsProjection, whereClause, whereArgs, null, null, null);
         while (cursor.moveToNext()){
@@ -93,5 +94,13 @@ public class DBHelper extends SQLiteOpenHelper {
         return personList;
     }
 
+    public void updatePersonById(Person person, int status) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBContract.SYNC_STATUS, status); //These Fields should be your String values of actual column names
+        String whereClause = DBContract.ID+"=?";
+        String[] whereArgs = {""+person.getId()};
+        int userId = database.update(DBContract.TABLE_NAME, contentValues, whereClause, whereArgs);
+        Log.d("USERID", ""+userId);
+    }
 
 }

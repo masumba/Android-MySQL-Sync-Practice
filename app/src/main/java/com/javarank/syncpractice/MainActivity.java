@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        //dbHelper.updatePersonById(personList.get(0), 0);
+
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         boolean isAvailable = Util.checkNetworkConnection(this);
         if( isAvailable ) {
             saveToCloudStorage(firstName, lastName);
-            Toast.makeText(MainActivity.this, "Connection", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "Connection", Toast.LENGTH_SHORT).show();
         } else {
             saveToLocalStorage(firstName, lastName, DBContract.SYNC_STATUS_FAILED);
         }

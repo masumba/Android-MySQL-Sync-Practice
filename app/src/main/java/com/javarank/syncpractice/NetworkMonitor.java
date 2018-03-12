@@ -29,7 +29,7 @@ public class NetworkMonitor extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if( Util.checkNetworkConnection(context) ) {
             DBHelper dbHelper = new DBHelper(context);
-            List<Person> personList = dbHelper.getPersonList();
+            List<Person> personList = dbHelper.getUnSyncedPersonList();
             for( Person person : personList ) {
                 saveToServer(person, dbHelper, context);
             }
@@ -47,10 +47,10 @@ public class NetworkMonitor extends BroadcastReceiver {
                     JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("response");
                     if( "ok".equals(status) ) {
-                        dbHelper.saveToLocalDb(person, DBContract.SYNC_STATUS_OK);
+                        dbHelper.updatePersonById(person, DBContract.SYNC_STATUS_OK);
                         context.sendBroadcast(new Intent(DBContract.UI_UPDATE_BROADCAST));
                     } else {
-                        dbHelper.saveToLocalDb(person, DBContract.SYNC_STATUS_FAILED);
+                        dbHelper.updatePersonById(person, DBContract.SYNC_STATUS_FAILED);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -60,7 +60,7 @@ public class NetworkMonitor extends BroadcastReceiver {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dbHelper.saveToLocalDb(person, DBContract.SYNC_STATUS_FAILED);
+                //dbHelper.updatePersonById(person, DBContract.SYNC_STATUS_FAILED);
             }
         })
         {
