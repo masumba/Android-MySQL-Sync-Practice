@@ -1,5 +1,6 @@
 package com.javarank.syncpractice;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -63,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
                 notifyDatasetChangedForPerson();
             }
         };
+
+        ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
+        progressDialog.setTitle("Hello");
+        progressDialog.show();
 
         //dbHelper.updatePersonById(personList.get(0), 0);
 
